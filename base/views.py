@@ -3,16 +3,21 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .products import products
+from .models import (Product, Review, Order, OrderItem, ShippingAddress)
+from .serializers import ProductSerializer
 
 
 @api_view(["GET"])
 def list_products(request):
-    return Response(products)
+    products = Product.objects.all().order_by("-createdAt")
+    serializer = ProductSerializer(products, many=True)
+
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
 def get_product(request, pk):
-    product = [item for item in products if item.get("_id") == pk]
+    product = Product.objects.filter(_id=pk).first()
+    serializer = ProductSerializer(product, many=False)
 
-    return Response(product)
+    return Response(serializer.data)
