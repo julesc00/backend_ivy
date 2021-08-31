@@ -1,0 +1,1 @@
+Django with Django REST Framework in the back and React.js for the frontend for Udemy Course from Denis Ivanov and Traversy.
